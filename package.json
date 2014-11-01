@@ -1,0 +1,35 @@
+{
+  "name": "twitch-kraken",
+  "version": "0.0.1",
+  "description": "A node module designed to easily access Twitch.tv API, Kraken.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -t 10000 test/unit test/integration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaximeBouchenoire/twitch-kraken.git"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "javascript",
+    "api",
+    "twitch",
+    "twitchtv",
+    "twitch.tv",
+    "kraken",
+    "easy"
+  ],
+  "author": "Maxime <bouchenoire.maxime@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaximeBouchenoire/twitch-kraken/issues"
+  },
+  "homepage": "https://github.com/MaximeBouchenoire/twitch-kraken",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^2.0.1",
+    "should": "^4.1.0"
+  }
+}
