@@ -18,7 +18,7 @@
 var Twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('Streams', function() {
+describe('[unit] TwitchKraken#streams', function() {
 
     var twitch = new Twitch();
 
@@ -26,6 +26,36 @@ describe('Streams', function() {
         twitch.streams().should.be.false;
         twitch.streams(true).should.be.false;
         twitch.streams({key: 'value'}).should.be.false;
+    });
+
+    it('should callback an error if offset is greater than number', function() {
+        twitch.streams({
+            number: 5,
+            offset: 7
+        }, function(err, streams) {
+            err.should.exist;
+        });
+    })
+
+});
+
+describe('[unit] TwitchKraken#emoticons', function() {
+
+    var twitch = new Twitch();
+
+    it("should return false if channel isn't passed", function() {
+        twitch.emoticons().should.be.false;
+    });
+
+    it("should return false if channel isn't a string", function() {
+        twitch.emoticons(true).should.be.false;
+        twitch.emoticons({key: 'value'}).should.be.false;
+        twitch.emoticons(function() {}).should.be.false;
+    });
+
+    it("should return false if callback isn't passed", function() {
+        twitch.emoticons('channel', {key: 'value'}).should.be.false;
+        twitch.emoticons('channel', true).should.be.false;
     });
 
 });

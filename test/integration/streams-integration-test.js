@@ -18,11 +18,11 @@
 var Twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('Streams integration test', function() {
+describe('[integration] TwitchKraken#streams', function() {
 
     var twitch = new Twitch();
 
-    it('should return a list of streams', function() {
+    it('should callback a list of streams', function() {
         var streamsNumber = 6;
 
         var args = {
@@ -30,21 +30,47 @@ describe('Streams integration test', function() {
             offset: 0
         }
 
-        twitch.streams(args, function(streams) {
-
+        twitch.streams(args, function(err, streams) {
             streams.should.have.length(streamsNumber);
 
-            streams.forEach(function(stream) {
+            streams.forEach(function(err, stream) {
+                err.should.not.exist;
 
-                oneStream.should.have.ownProperty('_id');
-                oneStream.should.have.ownProperty('game');
-                oneStream.should.have.ownProperty('viewers');
-                oneStream.should.have.ownProperty('channel');
+                stream.should.have.ownProperty('_id');
+                stream.should.have.ownProperty('game');
+                stream.should.have.ownProperty('viewers');
+                stream.should.have.ownProperty('channel');
 
             })
-
         })
+    })
 
+    it('should not callback an error', function() {
+        twitch.streams(function(err, streams) {
+            err.should.not.exist;
+        })
+    })
+})
+
+describe('[integration] TwitchKraken#emoticons', function() {
+
+    var twitch = new Twitch();
+
+    it('should callback a list of emoticons', function() {
+        twitch.emoticons('riotgames', function(err, emoticons) {
+            emoticons.forEach(function(err, emoticon) {
+                emoticon.should.have.ownProperty('regex');
+                emoticon.should.have.ownProperty('url');
+            })
+        })
+    })
+
+    it('should not callback an error', function() {
+        twitch.emoticons('riotgames', function(err, emoticons) {
+            emoticons.forEach(function(err, emoticon) {
+                err.should.not.exist;
+            })
+        })
     })
 
 })
