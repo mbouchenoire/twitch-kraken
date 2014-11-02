@@ -20,6 +20,8 @@ var http = require('request');
 
 TWITCH_API = 'https://api.twitch.tv/kraken/';
 
+var bufferizedEmoticons = [];
+
 function Twitch() {
     // do nothing
 }
@@ -30,27 +32,82 @@ function Twitch() {
  *
  * @param args args.number (optional): number of streams to retrieve
  *             args.offset (optional): offset from which you want to start to get the streams list
- * @param callback called when the streams have been retrieved, with streams as only argument
+ * @param callback called when the streams have been retrieved, with format (err, streams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.streams = function(args, callback) {
+Twitch.prototype.streams = function (args, callback) {
     if (typeof args == 'function') callback = args;
     if (!callback || typeof callback != 'function') return false;
 
     var number = args.number || 100;
     var offset = args.offset || 0;
 
+    if (offset > number) return callback(new Error('Streams offset is superior to the number to retrieve!'));
+
+    //TODO handle more than 100 streams (twitch api returns maximum 100 streams), have to play with offset
+
+    return retrieveResource(TWITCH_API + 'streams?number=' + number + '&offset=' + offset, function (err, body) {
+        var streams = body.streams;
+        if (!streams) err = new Error('Failed to parse the resource in order to get the streams list!');
+        callback(err, streams);
+    });
+}
+
+/**
+ * Returns a list of 'emoticons' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v3_resources/chat.md#get-chatemoticons
+ *
+ * Note that this function bufferize emoticons from a channel, as they rarely change.
+ *
+ * @param channel the twitch.tv channel
+ * @param callback called when the emoticons have been retrieved, with format (err, streams)
+ * @returns {boolean} false if arguments are missing
+ */
+Twitch.prototype.emoticons = function (channel, callback) {
+    if (!channel || typeof channel != 'string') return false;
+    if (!callback || typeof callback != 'function') return false;
+
+    var emoticons = getBufferizedEmoticons(channel);
+
+    if (emoticons != null) {
+        return callback(null, emoticons);
+    }
+
+    return retrieveResource(TWITCH_API + 'chat/' + channel + '/emoticons', function (err, body) {
+        emoticons = body.emoticons;
+        if (!emoticons) err = new Error('Failed to parse the resource in order to get the emoticons list!');
+
+        bufferizedEmoticons.push({channel: channel, emoticons: emoticons});
+        callback(err, emoticons);
+    });
+}
+
+function retrieveResource(url, callback) {
+    if (!url || typeof url != 'string') return false;
+    if (!callback || typeof callback != 'function') return false;
+
     http.get({
-        url: TWITCH_API + 'streams?number=' + number + '&offset=' + offset
-    }, function(err, response, body) {
+        url: url
+    }, function (err, response, body) {
         if (err) {
-            console.log(err);
+            callback(err);
         } else {
             body = JSON.parse(body);
-            var streams = body.streams;
-            if (callback) callback(streams);
+            if (callback) callback(null, body);
         }
     })
+}
+
+function getBufferizedEmoticons(channel) {
+    var emoticons = null;
+
+    bufferizedEmoticons.forEach(function (buffer) {
+        if (buffer.channel == channel) {
+            emoticons = buffer.emoticons;
+        }
+    });
+
+    return emoticons;
 }
 
 module.exports = Twitch;
