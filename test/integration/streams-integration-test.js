@@ -36,21 +36,53 @@ describe('[integration] TwitchKraken#streams', function() {
             streams.forEach(function(err, stream) {
                 err.should.not.exist;
 
-                stream.should.have.ownProperty('_id');
-                stream.should.have.ownProperty('game');
-                stream.should.have.ownProperty('viewers');
-                stream.should.have.ownProperty('channel');
+                stream.should.have.property('_id');
+                stream.should.have.property('game');
+                stream.should.have.property('viewers');
+                stream.should.have.property('channel');
 
-            })
-        })
-    })
+            });
+        });
+    });
 
     it('should not callback an error', function() {
         twitch.streams(function(err, streams) {
             err.should.not.exist;
-        })
-    })
-})
+        });
+    });
+});
+
+describe('[integration] TwitchKraken#games', function() {
+
+    var twitch = new Twitch();
+
+    it('should callback a list of games', function() {
+        var gamesNumber = 6;
+
+        var args = {
+            number: gamesNumber,
+            offset: 0
+        }
+
+        twitch.games(args, function(err, games) {
+
+            games.should.have.property('top');
+            var top = games.top;
+
+            top.forEach(function(game) {
+                game.should.have.property('game');
+                game.should.have.property('logo');
+            });
+
+        });
+    });
+
+    it('should not callback an error', function() {
+        twitch.games(function(err, games) {
+            err.should.not.exist;
+        });
+    });
+});
 
 describe('[integration] TwitchKraken#emoticons', function() {
 
@@ -61,16 +93,17 @@ describe('[integration] TwitchKraken#emoticons', function() {
             emoticons.forEach(function(err, emoticon) {
                 emoticon.should.have.ownProperty('regex');
                 emoticon.should.have.ownProperty('url');
-            })
-        })
-    })
+            });
+        });
+    });
 
     it('should not callback an error', function() {
         twitch.emoticons('riotgames', function(err, emoticons) {
             emoticons.forEach(function(err, emoticon) {
                 err.should.not.exist;
-            })
-        })
-    })
+            });
+        });
+    });
 
-})
+});
+

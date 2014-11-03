@@ -39,6 +39,27 @@ describe('[unit] TwitchKraken#streams', function() {
 
 });
 
+describe('[unit] TwitchKraken#games', function() {
+
+    var twitch = new Twitch();
+
+    it("should return false if callback isn't passed", function() {
+        twitch.games().should.be.false;
+        twitch.games(true).should.be.false;
+        twitch.games({key: 'value'}).should.be.false;
+    });
+
+    it('should callback an error if offset is greater than number', function() {
+        twitch.streams({
+            number: 5,
+            offset: 7
+        }, function(err, games) {
+            err.should.exist;
+        });
+    })
+
+});
+
 describe('[unit] TwitchKraken#emoticons', function() {
 
     var twitch = new Twitch();
