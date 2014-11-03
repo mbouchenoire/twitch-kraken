@@ -17,6 +17,7 @@
  */
 
 var http = require('request');
+var async = require('async');
 
 TWITCH_API = 'https://api.twitch.tv/kraken/';
 
@@ -46,7 +47,7 @@ Twitch.prototype.streams = function (args, callback) {
 
     //TODO handle more than 25 streams (twitch api returns maximum 25 streams), have to play with offset
 
-    return retrieveResource(TWITCH_API + 'streams?number=' + number + '&offset=' + offset, function (err, body) {
+    return retrieveResource(TWITCH_API + 'streams?number=' + 25 + '&offset=' + 0, function (err, body) {
         var streams = body.streams;
         if (!streams) err = new Error('Failed to parse the resource in order to get the streams list!');
         callback(err, streams);
@@ -54,7 +55,32 @@ Twitch.prototype.streams = function (args, callback) {
 }
 
 /**
- * Returns a list of 'emoticons' resource based on this documentation:
+ * Returns a list of 'game' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v3_resources/games.md
+ *
+ * @param args args.number (optional): number of streams to retrieve
+ *             args.offset (optional): offset from which you want to start to get the streams list
+ * @param callback called when the streams have been retrieved, with format (err, streams)
+ * @returns {boolean} false if arguments are missing
+ */
+Twitch.prototype.games = function(args, callback) {
+    if (typeof args == 'function') callback = args;
+    if (!callback || typeof callback != 'function') return false;
+
+    var number = args.number || 100;
+    var offset = args.offset || 0;
+
+    if (offset > number) return callback(new Error('Games offset is superior to the number to retrieve!'));
+
+    return retrieveResource(TWITCH_API + 'games?number=' + number + '&offset=' + offset, function (err, body) {
+        var streams = body.streams;
+        if (!streams) err = new Error('Failed to parse the resource in order to get the games list!');
+        callback(err, streams);
+    });
+}
+
+/**
+ * Returns a list of 'emoticon' resource based on this documentation:
  * https://github.com/justintv/Twitch-API/blob/master/v3_resources/chat.md#get-chatemoticons
  *
  * Note that this function bufferize emoticons from a channel, as they rarely change.
@@ -90,6 +116,7 @@ function retrieveResource(url, callback) {
         url: url
     }, function (err, response, body) {
         if (err) {
+            console.dir(err);
             callback(err);
         } else {
             var ex = null;
@@ -97,6 +124,7 @@ function retrieveResource(url, callback) {
             try {
                 body = JSON.parse(body);
             } catch(err) {
+                console.dir(err);
                 ex = err;
             }
 
