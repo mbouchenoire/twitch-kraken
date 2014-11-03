@@ -39,12 +39,12 @@ Twitch.prototype.streams = function (args, callback) {
     if (typeof args == 'function') callback = args;
     if (!callback || typeof callback != 'function') return false;
 
-    var number = args.number || 100;
+    var number = args.number || 25;
     var offset = args.offset || 0;
 
     if (offset > number) return callback(new Error('Streams offset is superior to the number to retrieve!'));
 
-    //TODO handle more than 100 streams (twitch api returns maximum 100 streams), have to play with offset
+    //TODO handle more than 25 streams (twitch api returns maximum 25 streams), have to play with offset
 
     return retrieveResource(TWITCH_API + 'streams?number=' + number + '&offset=' + offset, function (err, body) {
         var streams = body.streams;
@@ -92,8 +92,15 @@ function retrieveResource(url, callback) {
         if (err) {
             callback(err);
         } else {
-            body = JSON.parse(body);
-            if (callback) callback(null, body);
+            var ex = null;
+
+            try {
+                body = JSON.parse(body);
+            } catch(err) {
+                ex = err;
+            }
+
+            if (callback) callback(ex, body);
         }
     })
 }
