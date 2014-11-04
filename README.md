@@ -1,4 +1,4 @@
-# twitch-kraken
+# twitch-kraken [![Build Status](https://travis-ci.org/mbouchenoire/twitch-kraken.svg?branch=master)](https://travis-ci.org/mbouchenoire/twitch-kraken)
 
 The twitch-kraken module is designed to easily access the Twitch(.tv) API, which is documented [here](https://github.com/justintv/twitch-api).
 
