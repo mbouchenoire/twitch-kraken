@@ -30,6 +30,8 @@
   "devDependencies": {
     "chai": "^1.9.2",
     "mocha": "^2.0.1",
-    "should": "^4.1.0"
+    "should": "^4.1.0",
+    "irc": "0.3.7",
+    "request": "2.47.0"
   }
 }
