@@ -17,10 +17,10 @@
  */
 
 var http = require('request');
-var async = require('async');
 
 TWITCH_API = 'https://api.twitch.tv/kraken/';
 
+//this is where the bufferized emoticons will be stored
 var bufferizedEmoticons = [];
 
 function Twitch() {
@@ -67,7 +67,7 @@ Twitch.prototype.games = function(args, callback) {
     if (typeof args == 'function') callback = args;
     if (!callback || typeof callback != 'function') return false;
 
-    var number = args.number || 100;
+    var number = args.number || 25;
     var offset = args.offset || 0;
 
     if (offset > number) return callback(new Error('Games offset is superior to the number to retrieve!'));
@@ -103,6 +103,7 @@ Twitch.prototype.emoticons = function (channel, callback) {
         emoticons = body.emoticons;
         if (!emoticons) err = new Error('Failed to parse the resource in order to get the emoticons list!');
 
+        //TODO update the buffer every x minutes / hours
         bufferizedEmoticons.push({channel: channel, emoticons: emoticons});
         callback(err, emoticons);
     });
@@ -116,7 +117,6 @@ function retrieveResource(url, callback) {
         url: url
     }, function (err, response, body) {
         if (err) {
-            console.dir(err);
             callback(err);
         } else {
             var ex = null;
@@ -124,7 +124,6 @@ function retrieveResource(url, callback) {
             try {
                 body = JSON.parse(body);
             } catch(err) {
-                console.dir(err);
                 ex = err;
             }
 
@@ -133,6 +132,11 @@ function retrieveResource(url, callback) {
     })
 }
 
+/**
+ *
+ * @param channel the channel (stream) from which we want the emoticons list
+ * @returns the bufferized list of emoticons of the specified channel. The buffer is updated every script's reboot (at the moment).
+ */
 function getBufferizedEmoticons(channel) {
     var emoticons = null;
 
