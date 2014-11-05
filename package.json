@@ -27,6 +27,13 @@
     "url": "https://github.com/MaximeBouchenoire/twitch-kraken/issues"
   },
   "homepage": "https://github.com/MaximeBouchenoire/twitch-kraken",
+  "dependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^2.0.1",
+    "should": "^4.1.0",
+    "irc": "0.3.7",
+    "request": "2.47.0"
+  },
   "devDependencies": {
     "chai": "^1.9.2",
     "mocha": "^2.0.1",
