@@ -48,7 +48,7 @@ Twitch.prototype.streams = function (args, callback) {
 
     //TODO handle more than 25 streams (twitch api returns maximum 25 streams), have to play with offset
 
-    return retrieveResource(TWITCH_API + 'streams?number=' + 25 + '&offset=' + 0, function (err, body) {
+    return retrieveResource(TWITCH_API + 'streams?number=' + number + '&offset=' + offset, function (err, body) {
         var streams = body.streams;
         if (!streams) err = new Error('Failed to parse the resource in order to get the streams list!');
         callback(err, streams);
@@ -64,7 +64,7 @@ Twitch.prototype.streams = function (args, callback) {
  * @param callback called when the streams have been retrieved, with format (err, streams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.games = function(err, callback) {
+Twitch.prototype.games = function(callback) {
     if (!callback || typeof callback != 'function') return false;
 
     return retrieveResource(TWITCH_API + 'games/top', function (err, body) {
@@ -72,6 +72,51 @@ Twitch.prototype.games = function(err, callback) {
         if (!games) err = new Error('Failed to parse the resource in order to get the games list!');
         callback(err, games);
     });
+}
+
+//TODO finish the 'retrieveStreams' function, allowing to retrieve more streams than what the API allow in a single request
+function retrieveStreams(args, callback) {
+    if (typeof args == 'function') callback = args;
+    if (!callback || typeof callback != 'function') return false;
+
+    var number = args.number || 25;
+    var offset = args.offset || 0;
+
+    var parts = Math.ceil(number / 25);
+    var urls = [];
+
+    for(var i = 0; i < parts; i++) {
+        var offset = (i * 25);
+        var url = TWITCH_API + 'games?number=' + 25 + '&offset=' + offset;
+        urls.push(url);
+    }
+
+    var asyncProperties = {};
+
+    for(var i = 0; i < urls.length; i++) {
+        asyncProperties[i] = function(callback) {
+           return retrieveResource(urls[i], function(err, body) {
+               var streams = body.streams;
+               if (!streams) err = new Error('Failed to parse the resource in order to get the games list!');
+               callback(err, streams);
+           });
+        }
+    }
+
+    async.parallel(asyncProperties, function(err, results) {
+        //console.dir(results);
+    });
+
+    /*async.parallel({
+        one: function(callback) {
+            callback(null, 'abc\n');
+        },
+        two: function(callback) {
+            callback(null, 'xyz\n');
+        }
+    }, function(err, results) {
+        console.dir(results);
+    });*/
 }
 
 /**
