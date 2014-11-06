@@ -17,6 +17,7 @@
  */
 
 var http = require('request');
+var async = require('async');
 
 TWITCH_API = 'https://api.twitch.tv/kraken/';
 
@@ -63,19 +64,13 @@ Twitch.prototype.streams = function (args, callback) {
  * @param callback called when the streams have been retrieved, with format (err, streams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.games = function(args, callback) {
-    if (typeof args == 'function') callback = args;
+Twitch.prototype.games = function(err, callback) {
     if (!callback || typeof callback != 'function') return false;
 
-    var number = args.number || 25;
-    var offset = args.offset || 0;
-
-    if (offset > number) return callback(new Error('Games offset is superior to the number to retrieve!'));
-
-    return retrieveResource(TWITCH_API + 'games?number=' + number + '&offset=' + offset, function (err, body) {
-        var streams = body.streams;
-        if (!streams) err = new Error('Failed to parse the resource in order to get the games list!');
-        callback(err, streams);
+    return retrieveResource(TWITCH_API + 'games/top', function (err, body) {
+        var games = body.top;
+        if (!games) err = new Error('Failed to parse the resource in order to get the games list!');
+        callback(err, games);
     });
 }
 
@@ -127,7 +122,7 @@ function retrieveResource(url, callback) {
                 ex = err;
             }
 
-            if (callback) callback(ex, body);
+            callback(ex, body);
         }
     })
 }
