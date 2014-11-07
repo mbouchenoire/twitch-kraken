@@ -18,11 +18,11 @@
 var Twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('[integration] TwitchKraken#streams', function() {
+describe('[integration] TwitchKraken#geStreams', function() {
 
     var twitch = new Twitch();
 
-    it('should callback a list of streams', function() {
+    it('should callback a list of geStreams', function() {
         var streamsNumber = 6;
 
         var args = {
@@ -30,10 +30,10 @@ describe('[integration] TwitchKraken#streams', function() {
             offset: 0
         }
 
-        twitch.streams(args, function(err, streams) {
+        twitch.geStreams(args, function(err, streams) {
             //err.should.not.exist;
             //TODO test for not err
-            //streams.should.have.length(streamsNumber);
+            //geStreams.should.have.length(streamsNumber);
 
             streams.forEach(function(stream) {
 
@@ -48,7 +48,7 @@ describe('[integration] TwitchKraken#streams', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.streams(function(err, streams) {
+        twitch.geStreams(function(err, streams) {
             //TODO fix this test
             //should.be.null(err);
             done();
@@ -56,13 +56,13 @@ describe('[integration] TwitchKraken#streams', function() {
     });
 });
 
-describe('[integration] TwitchKraken#games', function() {
+describe('[integration] TwitchKraken#getGames', function() {
 
     var twitch = new Twitch();
 
     it('should callback a list of games', function(done) {
 
-        twitch.games(function(err, games) {
+        twitch.getGames(function(err, games) {
 
             games.forEach(function(game) {
                 game.should.have.ownProperty('game');
@@ -74,7 +74,7 @@ describe('[integration] TwitchKraken#games', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.games(function(err, games) {
+        twitch.getGames(function(err, games) {
             //TODO test for not err
             //err.should.not.exist;
             done();
@@ -82,12 +82,12 @@ describe('[integration] TwitchKraken#games', function() {
     });
 });
 
-describe('[integration] TwitchKraken#emoticons', function() {
+describe('[integration] TwitchKraken#getEmoticons', function() {
 
     var twitch = new Twitch();
 
     it('should callback a list of emoticons', function() {
-        twitch.emoticons('riotgames', function(err, emoticons) {
+        twitch.getEmoticons('riotgames', function(err, emoticons) {
             emoticons.forEach(function(err, emoticon) {
                 emoticon.should.have.ownProperty('regex');
                 emoticon.should.have.ownProperty('url');
@@ -96,7 +96,7 @@ describe('[integration] TwitchKraken#emoticons', function() {
     });
 
     it('should not callback an error', function() {
-        twitch.emoticons('riotgames', function(err, emoticons) {
+        twitch.getEmoticons('riotgames', function(err, emoticons) {
             emoticons.forEach(function(err, emoticon) {
                 err.should.not.exist;
             });

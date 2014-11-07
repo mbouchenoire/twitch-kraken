@@ -18,18 +18,18 @@
 var Twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('[unit] TwitchKraken#streams', function() {
+describe('[unit] TwitchKraken#geStreams', function() {
 
     var twitch = new Twitch();
 
     it("should return false if callback isn't passed", function() {
-        twitch.streams().should.be.false;
-        twitch.streams(true).should.be.false;
-        twitch.streams({key: 'value'}).should.be.false;
+        twitch.geStreams().should.be.false;
+        twitch.geStreams(true).should.be.false;
+        twitch.geStreams({key: 'value'}).should.be.false;
     });
 
     it('should callback an error if offset is greater than number', function() {
-        twitch.streams({
+        twitch.geStreams({
             number: 5,
             offset: 7
         }, function(err, streams) {
@@ -39,44 +39,35 @@ describe('[unit] TwitchKraken#streams', function() {
 
 });
 
-describe('[unit] TwitchKraken#games', function() {
+describe('[unit] TwitchKraken#getGames', function() {
 
     var twitch = new Twitch();
 
     it("should return false if callback isn't passed", function() {
-        twitch.games().should.be.false;
-        twitch.games(true).should.be.false;
-        twitch.games({key: 'value'}).should.be.false;
+        twitch.getGames().should.be.false;
+        twitch.getGames(true).should.be.false;
+        twitch.getGames({key: 'value'}).should.be.false;
     });
-
-    it('should callback an error if offset is greater than number', function() {
-        twitch.streams({
-            number: 5,
-            offset: 7
-        }, function(err, games) {
-            err.should.exist;
-        });
-    })
 
 });
 
-describe('[unit] TwitchKraken#emoticons', function() {
+describe('[unit] TwitchKraken#getEmoticons', function() {
 
     var twitch = new Twitch();
 
     it("should return false if channel isn't passed", function() {
-        twitch.emoticons().should.be.false;
+        twitch.getEmoticons().should.be.false;
     });
 
     it("should return false if channel isn't a string", function() {
-        twitch.emoticons(true).should.be.false;
-        twitch.emoticons({key: 'value'}).should.be.false;
-        twitch.emoticons(function() {}).should.be.false;
+        twitch.getEmoticons(true).should.be.false;
+        twitch.getEmoticons({key: 'value'}).should.be.false;
+        twitch.getEmoticons(function() {}).should.be.false;
     });
 
     it("should return false if callback isn't passed", function() {
-        twitch.emoticons('channel', {key: 'value'}).should.be.false;
-        twitch.emoticons('channel', true).should.be.false;
+        twitch.getEmoticons('channel', {key: 'value'}).should.be.false;
+        twitch.getEmoticons('channel', true).should.be.false;
     });
 
 });
