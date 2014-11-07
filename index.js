@@ -30,14 +30,14 @@ function Twitch() {
 
 /**
  * Returns a list of 'stream' resource based on this documentation:
- * https://github.com/justintv/Twitch-API/blob/master/v3_resources/streams.md
+ * https://github.com/justintv/Twitch-API/blob/master/v3_resources/geStreams.md
  *
- * @param args args.number (optional): number of streams to retrieve
- *             args.offset (optional): offset from which you want to start to get the streams list
- * @param callback called when the streams have been retrieved, with format (err, streams)
+ * @param args args.number (optional): number of geStreams to retrieve
+ *             args.offset (optional): offset from which you want to start to get the geStreams list
+ * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.streams = function (args, callback) {
+Twitch.prototype.geStreams = function (args, callback) {
     if (typeof args == 'function') callback = args;
     if (!callback || typeof callback != 'function') return false;
 
@@ -46,11 +46,11 @@ Twitch.prototype.streams = function (args, callback) {
 
     if (offset > number) return callback(new Error('Streams offset is superior to the number to retrieve!'));
 
-    //TODO handle more than 25 streams (twitch api returns maximum 25 streams), have to play with offset
+    //TODO handle more than 25 geStreams (twitch api returns maximum 25 geStreams), have to play with offset
 
     return retrieveResource(TWITCH_API + 'streams?number=' + number + '&offset=' + offset, function (err, body) {
         var streams = body.streams;
-        if (!streams) err = new Error('Failed to parse the resource in order to get the streams list!');
+        if (!streams) err = new Error('Failed to parse the resource in order to get the geStreams list!');
         callback(err, streams);
     });
 }
@@ -59,12 +59,12 @@ Twitch.prototype.streams = function (args, callback) {
  * Returns a list of 'game' resource based on this documentation:
  * https://github.com/justintv/Twitch-API/blob/master/v3_resources/games.md
  *
- * @param args args.number (optional): number of streams to retrieve
- *             args.offset (optional): offset from which you want to start to get the streams list
- * @param callback called when the streams have been retrieved, with format (err, streams)
+ * @param args args.number (optional): number of geStreams to retrieve
+ *             args.offset (optional): offset from which you want to start to get the geStreams list
+ * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.games = function(callback) {
+Twitch.prototype.getGames = function(callback) {
     if (!callback || typeof callback != 'function') return false;
 
     return retrieveResource(TWITCH_API + 'games/top', function (err, body) {
@@ -74,7 +74,7 @@ Twitch.prototype.games = function(callback) {
     });
 }
 
-//TODO finish the 'retrieveStreams' function, allowing to retrieve more streams than what the API allow in a single request
+//TODO finish the 'retrieveStreams' function, allowing to retrieve more geStreams than what the API allow in a single request
 function retrieveStreams(args, callback) {
     if (typeof args == 'function') callback = args;
     if (!callback || typeof callback != 'function') return false;
@@ -126,10 +126,10 @@ function retrieveStreams(args, callback) {
  * Note that this function bufferize emoticons from a channel, as they rarely change.
  *
  * @param channel the twitch.tv channel
- * @param callback called when the emoticons have been retrieved, with format (err, streams)
+ * @param callback called when the emoticons have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.emoticons = function (channel, callback) {
+Twitch.prototype.getEmoticons = function (channel, callback) {
     if (!channel || typeof channel != 'string') return false;
     if (!callback || typeof callback != 'function') return false;
 
