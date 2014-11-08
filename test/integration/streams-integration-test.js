@@ -23,7 +23,7 @@ describe('[integration] TwitchKraken#geStreams', function() {
     var twitch = new Twitch();
 
     it('should callback a list of geStreams', function() {
-        var streamsNumber = 6;
+        var streamsNumber = 37;
 
         var args = {
             number: streamsNumber,
@@ -31,9 +31,9 @@ describe('[integration] TwitchKraken#geStreams', function() {
         }
 
         twitch.geStreams(args, function(err, streams) {
-            //err.should.not.exist;
-            //TODO test for not err
-            //geStreams.should.have.length(streamsNumber);
+            (!err).should.be.true;
+
+            streams.length.should.equal(streamsNumber);
 
             streams.forEach(function(stream) {
 
@@ -49,8 +49,7 @@ describe('[integration] TwitchKraken#geStreams', function() {
 
     it('should not callback an error', function(done) {
         twitch.geStreams(function(err, streams) {
-            //TODO fix this test
-            //should.be.null(err);
+            (!err).should.be.true;
             done();
         });
     });
@@ -63,6 +62,7 @@ describe('[integration] TwitchKraken#getGames', function() {
     it('should callback a list of games', function(done) {
 
         twitch.getGames(function(err, games) {
+            (!err).should.be.true;
 
             games.forEach(function(game) {
                 game.should.have.ownProperty('game');
@@ -88,6 +88,8 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
 
     it('should callback a list of emoticons', function() {
         twitch.getEmoticons('riotgames', function(err, emoticons) {
+            (!err).should.be.true;
+
             emoticons.forEach(function(err, emoticon) {
                 emoticon.should.have.ownProperty('regex');
                 emoticon.should.have.ownProperty('url');
@@ -98,7 +100,7 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
     it('should not callback an error', function() {
         twitch.getEmoticons('riotgames', function(err, emoticons) {
             emoticons.forEach(function(err, emoticon) {
-                err.should.not.exist;
+                (!err).should.be.true;
             });
         });
     });
