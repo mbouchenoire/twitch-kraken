@@ -46,12 +46,48 @@ Twitch.prototype.geStreams = function (args, callback) {
 
     if (offset > number) return callback(new Error('Streams offset is superior to the number to retrieve!'));
 
-    //TODO handle more than 25 geStreams (twitch api returns maximum 25 geStreams), have to play with offset
+    return retrieveStreams(args, callback);
+}
 
-    return retrieveResource(TWITCH_API + 'streams?number=' + number + '&offset=' + offset, function (err, body) {
-        var streams = body.streams;
-        if (!streams) err = new Error('Failed to parse the resource in order to get the geStreams list!');
-        callback(err, streams);
+function retrieveStreams(args, callback) {
+    if (typeof args == 'function') callback = args;
+    if (!callback || typeof callback != 'function') return false;
+
+    var number = args.number || 25;
+    var offset = args.offset || 0;
+
+    var parts = Math.ceil(number / 25);
+    var urls = [];
+
+    for(var i = 0; i < parts; i++) {
+        var offset = (i * 25);
+        var url = TWITCH_API + 'streams?number=' + 25 + '&offset=' + offset;
+        urls.push(url);
+    }
+
+    var asyncProperties = {};
+
+    for(var i = 0; i < urls.length; i++) {
+        var index = i;
+        asyncProperties[i] = function(callback) {
+            return retrieveResource(urls[index], function(err, body) {
+                var streams = body.streams;
+                if (!streams) err = new Error('Failed to parse the resource in order to get the games list!');
+                callback(err, streams);
+            });
+        }
+    }
+
+    async.parallel(asyncProperties, function(err, results) {
+        var streams = [];
+
+        for(var i = 0; i < Object.keys(results).length; i++) {
+            streams = streams.concat(results[i]);
+        }
+
+        streams = streams.slice(0, number);
+
+        callback(null, streams);
     });
 }
 
@@ -72,51 +108,6 @@ Twitch.prototype.getGames = function(callback) {
         if (!games) err = new Error('Failed to parse the resource in order to get the games list!');
         callback(err, games);
     });
-}
-
-//TODO finish the 'retrieveStreams' function, allowing to retrieve more geStreams than what the API allow in a single request
-function retrieveStreams(args, callback) {
-    if (typeof args == 'function') callback = args;
-    if (!callback || typeof callback != 'function') return false;
-
-    var number = args.number || 25;
-    var offset = args.offset || 0;
-
-    var parts = Math.ceil(number / 25);
-    var urls = [];
-
-    for(var i = 0; i < parts; i++) {
-        var offset = (i * 25);
-        var url = TWITCH_API + 'games?number=' + 25 + '&offset=' + offset;
-        urls.push(url);
-    }
-
-    var asyncProperties = {};
-
-    for(var i = 0; i < urls.length; i++) {
-        asyncProperties[i] = function(callback) {
-           return retrieveResource(urls[i], function(err, body) {
-               var streams = body.streams;
-               if (!streams) err = new Error('Failed to parse the resource in order to get the games list!');
-               callback(err, streams);
-           });
-        }
-    }
-
-    async.parallel(asyncProperties, function(err, results) {
-        //console.dir(results);
-    });
-
-    /*async.parallel({
-        one: function(callback) {
-            callback(null, 'abc\n');
-        },
-        two: function(callback) {
-            callback(null, 'xyz\n');
-        }
-    }, function(err, results) {
-        console.dir(results);
-    });*/
 }
 
 /**
@@ -156,6 +147,7 @@ function retrieveResource(url, callback) {
     http.get({
         url: url
     }, function (err, response, body) {
+        //console.dir(body);
         if (err) {
             callback(err);
         } else {
