@@ -62,3 +62,18 @@ describe('[unit] TwitchKraken#getEmoticons', function() {
     });
 
 });
+
+describe('[unit] TwitchKraken#getVideo', function() {
+
+    var twitch = new Twitch();
+
+    it("should return false if id isn't passed", function() {
+        twitch.getVideo().should.be.false;
+    });
+
+    it("should return false if callback isn't passed", function() {
+        twitch.getVideo('3', {key: 'value'}).should.be.false;
+        twitch.getVideo(3, true).should.be.false;
+    });
+
+});

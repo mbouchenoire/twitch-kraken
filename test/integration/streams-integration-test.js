@@ -18,11 +18,11 @@
 var Twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('[integration] TwitchKraken#geStreams', function() {
+describe('[integration] TwitchKraken#getStreams', function() {
 
     var twitch = new Twitch();
 
-    it('should callback a list of geStreams', function() {
+    it('should callback a list of getStreams', function() {
         var streamsNumber = 37;
 
         twitch.getStreams(streamsNumber, function(err, streams) {
@@ -70,8 +70,7 @@ describe('[integration] TwitchKraken#getGames', function() {
 
     it('should not callback an error', function(done) {
         twitch.getGames(function(err, games) {
-            //TODO test for not err
-            //err.should.not.exist;
+            (!err).should.be.true;
             done();
         });
     });
@@ -85,20 +84,46 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
         twitch.getEmoticons('riotgames', function(err, emoticons) {
             (!err).should.be.true;
 
-            emoticons.forEach(function(err, emoticon) {
+            emoticons.forEach(function(emoticon) {
                 emoticon.should.have.ownProperty('regex');
                 emoticon.should.have.ownProperty('url');
             });
         });
     });
 
-    it('should not callback an error', function() {
+    it('should not callback an error', function(done) {
         twitch.getEmoticons('riotgames', function(err, emoticons) {
-            emoticons.forEach(function(err, emoticon) {
-                (!err).should.be.true;
-            });
+            (!err).should.be.true;
+            done();
         });
     });
 
 });
+
+describe('[integration] TwitchKraken#getVideo', function() {
+
+    var twitch = new Twitch();
+
+    it('should callback a video', function(done) {
+
+        twitch.getVideo('a328087483', function(err, video) {
+            //(!err).should.be.true;
+            //todo test err
+
+            video.should.have.property('title');
+            video.should.have.property('description');
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function(done) {
+        twitch.getVideo('a328087483', function(err, video) {
+            console.dir(err);
+            //(!err).should.be.true;
+            done();
+        });
+    });
+});
+
 
