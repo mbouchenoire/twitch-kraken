@@ -133,6 +133,16 @@ Twitch.prototype.getEmoticons = function (channel, callback) {
     });
 }
 
+Twitch.prototype.getVideo = function(id, callback) {
+    if (!id) return false;
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + 'videos/' + id, function (err, body) {
+        if (!body) err = new Error('Failed to parse the resource in order to get the video!');
+        callback(err, body);
+    });
+}
+
 function retrieveResource(url, callback) {
     if (!url || typeof url != 'string') return false;
     if (!callback || typeof callback != 'function') return false;
