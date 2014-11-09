@@ -37,24 +37,17 @@ function Twitch() {
  * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.geStreams = function (args, callback) {
-    if (typeof args == 'function') callback = args;
+Twitch.prototype.getStreams = function (number, callback) {
+    if (typeof number == 'function') callback = number;
     if (!callback || typeof callback != 'function') return false;
 
-    var number = args.number || 25;
-    var offset = args.offset || 0;
-
-    if (offset > number) return callback(new Error('Streams offset is superior to the number to retrieve!'));
-
-    return retrieveStreams(args, callback);
+    return retrieveStreams(number, callback);
 }
 
-function retrieveStreams(args, callback) {
-    if (typeof args == 'function') callback = args;
+function retrieveStreams(number, callback) {
     if (!callback || typeof callback != 'function') return false;
 
-    var number = args.number || 25;
-    var offset = args.offset || 0;
+    number = number || 25;
 
     var parts = Math.ceil(number / 25);
     var urls = [];
