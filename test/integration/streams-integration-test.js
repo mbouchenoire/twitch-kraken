@@ -25,12 +25,7 @@ describe('[integration] TwitchKraken#geStreams', function() {
     it('should callback a list of geStreams', function() {
         var streamsNumber = 37;
 
-        var args = {
-            number: streamsNumber,
-            offset: 0
-        }
-
-        twitch.geStreams(args, function(err, streams) {
+        twitch.getStreams(streamsNumber, function(err, streams) {
             (!err).should.be.true;
 
             streams.length.should.equal(streamsNumber);
@@ -48,7 +43,7 @@ describe('[integration] TwitchKraken#geStreams', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.geStreams(function(err, streams) {
+        twitch.getStreams(function(err, streams) {
             (!err).should.be.true;
             done();
         });

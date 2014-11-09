@@ -23,19 +23,10 @@ describe('[unit] TwitchKraken#geStreams', function() {
     var twitch = new Twitch();
 
     it("should return false if callback isn't passed", function() {
-        twitch.geStreams().should.be.false;
-        twitch.geStreams(true).should.be.false;
-        twitch.geStreams({key: 'value'}).should.be.false;
+        twitch.getStreams().should.be.false;
+        twitch.getStreams(true).should.be.false;
+        twitch.getStreams({key: 'value'}).should.be.false;
     });
-
-    it('should callback an error if offset is greater than number', function() {
-        twitch.geStreams({
-            number: 5,
-            offset: 7
-        }, function(err, streams) {
-            err.should.exist;
-        });
-    })
 
 });
 
