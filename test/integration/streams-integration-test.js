@@ -22,7 +22,7 @@ describe('[integration] TwitchKraken#getStreams', function() {
 
     var twitch = new Twitch();
 
-    it('should callback a list of getStreams', function() {
+    it('should callback a list of getStreams', function(done) {
         var streamsNumber = 37;
 
         twitch.getStreams(streamsNumber, function(err, streams) {
@@ -39,6 +39,8 @@ describe('[integration] TwitchKraken#getStreams', function() {
                 stream.should.have.ownProperty('channel');
 
             });
+
+            done();
         });
     });
 
@@ -80,7 +82,7 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
 
     var twitch = new Twitch();
 
-    it('should callback a list of emoticons', function() {
+    it('should callback a list of emoticons', function(done) {
         twitch.getEmoticons('riotgames', function(err, emoticons) {
             (!err).should.be.true;
 
@@ -88,6 +90,8 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
                 emoticon.should.have.ownProperty('regex');
                 emoticon.should.have.ownProperty('url');
             });
+
+            done();
         });
     });
 
@@ -119,11 +123,36 @@ describe('[integration] TwitchKraken#getVideo', function() {
 
     it('should not callback an error', function(done) {
         twitch.getVideo('a328087483', function(err, video) {
-            console.dir(err);
-            //(!err).should.be.true;
+            (!err).should.be.true;
             done();
         });
     });
 });
 
+
+describe('[integration] TwitchKraken#getTeams', function() {
+
+    var twitch = new Twitch();
+
+    it('should callback a list of teams', function(done) {
+        twitch.getTeams(function(err, teams) {
+            (!err).should.be.true;
+
+            teams.forEach(function(team) {
+                team.should.have.ownProperty('name');
+                team.should.have.ownProperty('logo');
+            });
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function(done) {
+        twitch.getTeams(function(err, teams) {
+            (!err).should.be.true;
+            done();
+        });
+    });
+
+});
 

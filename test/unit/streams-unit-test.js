@@ -77,3 +77,14 @@ describe('[unit] TwitchKraken#getVideo', function() {
     });
 
 });
+
+describe('[unit] TwitchKraken#getTeams', function() {
+
+    var twitch = new Twitch();
+
+    it("should return false if callback isn't passed", function() {
+        twitch.getEmoticons('channel', {key: 'value'}).should.be.false;
+        twitch.getEmoticons('channel', true).should.be.false;
+    });
+
+});
