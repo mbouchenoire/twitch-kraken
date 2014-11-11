@@ -143,6 +143,16 @@ Twitch.prototype.getVideo = function(id, callback) {
     });
 }
 
+Twitch.prototype.getTeams = function(callback) {
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + 'teams', function (err, body) {
+        var teams = body.teams;
+        if (!teams) err = new Error('Failed to parse the resource in order to get the teams list!');
+        callback(err, teams);
+    });
+}
+
 function retrieveResource(url, callback) {
     if (!url || typeof url != 'string') return false;
     if (!callback || typeof callback != 'function') return false;
