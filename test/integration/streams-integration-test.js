@@ -15,17 +15,17 @@
  *
  */
 
-var Twitch = require('../../../twitch-kraken');
+var twitch = require('../../../twitch-kraken');
 var should = require('should');
 
 describe('[integration] TwitchKraken#getStreams', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it('should callback a list of getStreams', function(done) {
         var streamsNumber = 37;
 
-        twitch.getStreams(streamsNumber, function(err, streams) {
+        client.getStreams(streamsNumber, function(err, streams) {
             (!err).should.be.true;
 
             streams.length.should.equal(streamsNumber);
@@ -45,7 +45,7 @@ describe('[integration] TwitchKraken#getStreams', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.getStreams(function(err, streams) {
+        client.getStreams(function(err, streams) {
             (!err).should.be.true;
             done();
         });
@@ -54,11 +54,11 @@ describe('[integration] TwitchKraken#getStreams', function() {
 
 describe('[integration] TwitchKraken#getGames', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it('should callback a list of games', function(done) {
 
-        twitch.getGames(function(err, games) {
+        client.getGames(function(err, games) {
             (!err).should.be.true;
 
             games.forEach(function(game) {
@@ -71,7 +71,7 @@ describe('[integration] TwitchKraken#getGames', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.getGames(function(err, games) {
+        client.getGames(function(err, games) {
             (!err).should.be.true;
             done();
         });
@@ -80,10 +80,10 @@ describe('[integration] TwitchKraken#getGames', function() {
 
 describe('[integration] TwitchKraken#getEmoticons', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it('should callback a list of emoticons', function(done) {
-        twitch.getEmoticons('riotgames', function(err, emoticons) {
+        client.getEmoticons('riotgames', function(err, emoticons) {
             (!err).should.be.true;
 
             emoticons.forEach(function(emoticon) {
@@ -96,7 +96,7 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.getEmoticons('riotgames', function(err, emoticons) {
+        client.getEmoticons('riotgames', function(err, emoticons) {
             (!err).should.be.true;
             done();
         });
@@ -106,11 +106,11 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
 
 describe('[integration] TwitchKraken#getVideo', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it('should callback a video', function(done) {
 
-        twitch.getVideo('a328087483', function(err, video) {
+        client.getVideo('a328087483', function(err, video) {
             //(!err).should.be.true;
             //todo test err
 
@@ -122,7 +122,7 @@ describe('[integration] TwitchKraken#getVideo', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.getVideo('a328087483', function(err, video) {
+        client.getVideo('a328087483', function(err, video) {
             (!err).should.be.true;
             done();
         });
@@ -132,10 +132,10 @@ describe('[integration] TwitchKraken#getVideo', function() {
 
 describe('[integration] TwitchKraken#getTeams', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it('should callback a list of teams', function(done) {
-        twitch.getTeams(function(err, teams) {
+        client.getTeams(function(err, teams) {
             (!err).should.be.true;
 
             teams.forEach(function(team) {
@@ -148,7 +148,7 @@ describe('[integration] TwitchKraken#getTeams', function() {
     });
 
     it('should not callback an error', function(done) {
-        twitch.getTeams(function(err, teams) {
+        client.getTeams(function(err, teams) {
             (!err).should.be.true;
             done();
         });

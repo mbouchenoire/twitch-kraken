@@ -15,76 +15,76 @@
  *
  */
 
-var Twitch = require('../../../twitch-kraken');
+var twitch = require('../../../twitch-kraken');
 var should = require('should');
 
 describe('[unit] TwitchKraken#geStreams', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it("should return false if callback isn't passed", function() {
-        twitch.getStreams().should.be.false;
-        twitch.getStreams(true).should.be.false;
-        twitch.getStreams({key: 'value'}).should.be.false;
+        client.getStreams().should.be.false;
+        client.getStreams(true).should.be.false;
+        client.getStreams({key: 'value'}).should.be.false;
     });
 
 });
 
 describe('[unit] TwitchKraken#getGames', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it("should return false if callback isn't passed", function() {
-        twitch.getGames().should.be.false;
-        twitch.getGames(true).should.be.false;
-        twitch.getGames({key: 'value'}).should.be.false;
+        client.getGames().should.be.false;
+        client.getGames(true).should.be.false;
+        client.getGames({key: 'value'}).should.be.false;
     });
 
 });
 
 describe('[unit] TwitchKraken#getEmoticons', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it("should return false if channel isn't passed", function() {
-        twitch.getEmoticons().should.be.false;
+        client.getEmoticons().should.be.false;
     });
 
     it("should return false if channel isn't a string", function() {
-        twitch.getEmoticons(true).should.be.false;
-        twitch.getEmoticons({key: 'value'}).should.be.false;
-        twitch.getEmoticons(function() {}).should.be.false;
+        client.getEmoticons(true).should.be.false;
+        client.getEmoticons({key: 'value'}).should.be.false;
+        client.getEmoticons(function() {}).should.be.false;
     });
 
     it("should return false if callback isn't passed", function() {
-        twitch.getEmoticons('channel', {key: 'value'}).should.be.false;
-        twitch.getEmoticons('channel', true).should.be.false;
+        client.getEmoticons('channel', {key: 'value'}).should.be.false;
+        client.getEmoticons('channel', true).should.be.false;
     });
 
 });
 
 describe('[unit] TwitchKraken#getVideo', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it("should return false if id isn't passed", function() {
-        twitch.getVideo().should.be.false;
+        client.getVideo().should.be.false;
     });
 
     it("should return false if callback isn't passed", function() {
-        twitch.getVideo('3', {key: 'value'}).should.be.false;
-        twitch.getVideo(3, true).should.be.false;
+        client.getVideo('3', {key: 'value'}).should.be.false;
+        client.getVideo(3, true).should.be.false;
     });
 
 });
 
 describe('[unit] TwitchKraken#getTeams', function() {
 
-    var twitch = new Twitch();
+    var client = new twitch.Client();
 
     it("should return false if callback isn't passed", function() {
-        twitch.getEmoticons('channel', {key: 'value'}).should.be.false;
-        twitch.getEmoticons('channel', true).should.be.false;
+        client.getEmoticons('channel', {key: 'value'}).should.be.false;
+        client.getEmoticons('channel', true).should.be.false;
     });
 
 });
