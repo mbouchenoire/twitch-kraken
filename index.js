@@ -24,7 +24,7 @@ TWITCH_API = 'https://api.twitch.tv/kraken/';
 //this is where the bufferized emoticons will be stored
 var bufferizedEmoticons = [];
 
-function Twitch() {
+function Client() {
     // do nothing
 }
 
@@ -37,7 +37,7 @@ function Twitch() {
  * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.getStreams = function (number, callback) {
+Client.prototype.getStreams = function (number, callback) {
     if (typeof number == 'function') callback = number;
     if (!callback || typeof callback != 'function') return false;
 
@@ -93,7 +93,7 @@ function retrieveStreams(number, callback) {
  * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.getGames = function(callback) {
+Client.prototype.getGames = function(callback) {
     if (!callback || typeof callback != 'function') return false;
 
     return retrieveResource(TWITCH_API + 'games/top', function (err, body) {
@@ -113,7 +113,7 @@ Twitch.prototype.getGames = function(callback) {
  * @param callback called when the emoticons have been retrieved, with format (err, geStreams)
  * @returns {boolean} false if arguments are missing
  */
-Twitch.prototype.getEmoticons = function (channel, callback) {
+Client.prototype.getEmoticons = function (channel, callback) {
     if (!channel || typeof channel != 'string') return false;
     if (!callback || typeof callback != 'function') return false;
 
@@ -133,7 +133,7 @@ Twitch.prototype.getEmoticons = function (channel, callback) {
     });
 }
 
-Twitch.prototype.getVideo = function(id, callback) {
+Client.prototype.getVideo = function(id, callback) {
     if (!id) return false;
     if (!callback || typeof callback != 'function') return false;
 
@@ -143,7 +143,7 @@ Twitch.prototype.getVideo = function(id, callback) {
     });
 }
 
-Twitch.prototype.getTeams = function(callback) {
+Client.prototype.getTeams = function(callback) {
     if (!callback || typeof callback != 'function') return false;
 
     return retrieveResource(TWITCH_API + 'teams', function (err, body) {
@@ -194,4 +194,4 @@ function getBufferizedEmoticons(channel) {
     return emoticons;
 }
 
-module.exports = Twitch;
+exports.Client = Client;
