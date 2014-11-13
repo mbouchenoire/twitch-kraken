@@ -1,6 +1,6 @@
 {
   "name": "twitch-kraken",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A node module designed to easily access Twitch.tv API, Kraken.",
   "main": "index.js",
   "scripts": {
