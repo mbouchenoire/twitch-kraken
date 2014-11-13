@@ -26,7 +26,7 @@
 var twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('[unit] TwitchKraken#geStreams', function() {
+describe('[unit] Client#geStreams', function() {
 
     var client = new twitch.Client();
 
@@ -38,7 +38,7 @@ describe('[unit] TwitchKraken#geStreams', function() {
 
 });
 
-describe('[unit] TwitchKraken#getGames', function() {
+describe('[unit] Client#getGames', function() {
 
     var client = new twitch.Client();
 
@@ -50,7 +50,7 @@ describe('[unit] TwitchKraken#getGames', function() {
 
 });
 
-describe('[unit] TwitchKraken#getEmoticons', function() {
+describe('[unit] Client#getEmoticons', function() {
 
     var client = new twitch.Client();
 
@@ -71,7 +71,7 @@ describe('[unit] TwitchKraken#getEmoticons', function() {
 
 });
 
-describe('[unit] TwitchKraken#getVideo', function() {
+describe('[unit] Client#getVideo', function() {
 
     var client = new twitch.Client();
 
@@ -86,13 +86,28 @@ describe('[unit] TwitchKraken#getVideo', function() {
 
 });
 
-describe('[unit] TwitchKraken#getTeams', function() {
+describe('[unit] Client#getTeams', function() {
 
     var client = new twitch.Client();
 
     it("should return false if callback isn't passed", function() {
         client.getEmoticons('channel', {key: 'value'}).should.be.false;
         client.getEmoticons('channel', true).should.be.false;
+    });
+
+});
+
+describe('[unit] Client#getTeam', function() {
+
+    var client = new twitch.Client();
+
+    it("should return false if id isn't passed", function() {
+        client.getTeam().should.be.false;
+    });
+
+    it("should return false if callback isn't passed", function() {
+        client.getTeam('eg', {key: 'value'}).should.be.false;
+        client.getTeam('eg', true).should.be.false;
     });
 
 });

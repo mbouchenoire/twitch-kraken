@@ -26,7 +26,7 @@
 var twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('[integration] TwitchKraken#getStreams', function() {
+describe('[integration] Client#getStreams', function() {
 
     var client = new twitch.Client();
 
@@ -60,7 +60,7 @@ describe('[integration] TwitchKraken#getStreams', function() {
     });
 });
 
-describe('[integration] TwitchKraken#getGames', function() {
+describe('[integration] Client#getGames', function() {
 
     var client = new twitch.Client();
 
@@ -86,7 +86,7 @@ describe('[integration] TwitchKraken#getGames', function() {
     });
 });
 
-describe('[integration] TwitchKraken#getEmoticons', function() {
+describe('[integration] Client#getEmoticons', function() {
 
     var client = new twitch.Client();
 
@@ -112,7 +112,7 @@ describe('[integration] TwitchKraken#getEmoticons', function() {
 
 });
 
-describe('[integration] TwitchKraken#getVideo', function() {
+describe('[integration] Client#getVideo', function() {
 
     var client = new twitch.Client();
 
@@ -138,7 +138,7 @@ describe('[integration] TwitchKraken#getVideo', function() {
 });
 
 
-describe('[integration] TwitchKraken#getTeams', function() {
+describe('[integration] Client#getTeams', function() {
 
     var client = new twitch.Client();
 
@@ -157,6 +157,30 @@ describe('[integration] TwitchKraken#getTeams', function() {
 
     it('should not callback an error', function(done) {
         client.getTeams(function(err, teams) {
+            (!err).should.be.true;
+            done();
+        });
+    });
+
+});
+
+describe('[integration] Client#getTeam', function() {
+
+    var client = new twitch.Client();
+
+    it('should callback a team', function(done) {
+        client.getTeam('eg', function(err, team) {
+            (!err).should.be.true;
+
+            team.should.have.ownProperty('name');
+            team.should.have.ownProperty('logo');
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function(done) {
+        client.getTeam('eg', function(err, teams) {
             (!err).should.be.true;
             done();
         });
