@@ -140,6 +140,14 @@ Client.prototype.getEmoticons = function (channel, callback) {
     });
 }
 
+/**
+ * Returns a 'video' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v2_resources/videos.md#get-videosid
+ *
+ * @param id the video id
+ * @param callback called when the video has been retrieved, using an error-first callback
+ * @returns {boolean} false if arguments are missing
+ */
 Client.prototype.getVideo = function(id, callback) {
     if (!id) return false;
     if (!callback || typeof callback != 'function') return false;
