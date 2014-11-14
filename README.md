@@ -22,6 +22,12 @@ client.getStreams(function(err, streams) {
 });
 ```
 
+## Running Tests
+
+To execute all tests, use:
+
+    npm test
+
 ## Contributing
 
 twitch-kraken is still in an early development phase, but everyone is free to fork it and make pull requests.
