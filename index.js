@@ -193,6 +193,13 @@ Client.prototype.getTeam = function(id, callback) {
     });
 }
 
+/**
+ * Returns the body of the response of an HTTP GET request on an URL
+ * 
+ * @param callback called when the response has been retrieved, using an error-first callback. 
+ *                  the second parameter of the callback contains the body of the response
+ * @returns {boolean} false if arguments are missing
+ */
 function retrieveResource(url, callback) {
     if (!url || typeof url != 'string') return false;
     if (!callback || typeof callback != 'function') return false;
