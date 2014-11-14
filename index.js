@@ -158,6 +158,13 @@ Client.prototype.getVideo = function(id, callback) {
     });
 }
 
+/**
+ * Returns a list of 'teams' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v2_resources/teams.md#get-teams
+ *
+ * @param callback called when the teams have been retrieved, using an error-first callback
+ * @returns {boolean} false if arguments are missing
+ */
 Client.prototype.getTeams = function(callback) {
     if (!callback || typeof callback != 'function') return false;
 
@@ -168,6 +175,14 @@ Client.prototype.getTeams = function(callback) {
     });
 }
 
+/**
+ * Returns a 'team' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v2_resources/teams.md#get-teamsteam
+ *
+ * @param id the team id
+ * @param callback called when the team has been retrieved, using an error-first callback
+ * @returns {boolean} false if arguments are missing
+ */
 Client.prototype.getTeam = function(id, callback) {
     if (!id) return false;
     if (!callback || typeof callback != 'function') return false;
