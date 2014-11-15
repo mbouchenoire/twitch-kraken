@@ -36,6 +36,39 @@ function Client() {
 }
 
 /**
+ * Returns a list of 'game' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v3_resources/games.md
+ *
+ * @param args args.number (optional): number of geStreams to retrieve
+ *             args.offset (optional): offset from which you want to start to get the geStreams list
+ * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
+ * @returns {boolean} false if arguments are missing
+ */
+Client.prototype.getGames = function (callback) {
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + 'games/top', function (err, body) {
+        var games = body.top;
+        if (!games) err = new Error('Failed to parse the resource in order to get the games list!');
+        callback(err, games);
+    });
+}
+
+Client.prototype.getChannel = function (id, callback) {
+    if (!id) return false;
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + '/channels/' + id, function(err, body) {
+        if (!body) err = new Error('Failed to parse the resource in order to get the stream!');
+        callback(err, body);
+    });
+}
+
+Client.prototype.getStream = function (id, callback) {
+    return this.getChannel(id, callback);
+}
+
+/**
  * Returns a list of 'stream' resource based on this documentation:
  * https://github.com/justintv/Twitch-API/blob/master/v3_resources/geStreams.md
  *
@@ -59,7 +92,7 @@ function retrieveStreams(number, callback) {
     var parts = Math.ceil(number / 25);
     var urls = [];
 
-    for(var i = 0; i < parts; i++) {
+    for (var i = 0; i < parts; i++) {
         var offset = (i * 25);
         var url = TWITCH_API + 'streams?number=' + 25 + '&offset=' + offset;
         urls.push(url);
@@ -67,10 +100,10 @@ function retrieveStreams(number, callback) {
 
     var asyncProperties = {};
 
-    for(var i = 0; i < urls.length; i++) {
+    for (var i = 0; i < urls.length; i++) {
         var index = i;
-        asyncProperties[i] = function(callback) {
-            return retrieveResource(urls[index], function(err, body) {
+        asyncProperties[i] = function (callback) {
+            return retrieveResource(urls[index], function (err, body) {
                 var streams = body.streams;
                 if (!streams) err = new Error('Failed to parse the resource in order to get the games list!');
                 callback(err, streams);
@@ -78,35 +111,16 @@ function retrieveStreams(number, callback) {
         }
     }
 
-    async.parallel(asyncProperties, function(err, results) {
+    async.parallel(asyncProperties, function (err, results) {
         var streams = [];
 
-        for(var i = 0; i < Object.keys(results).length; i++) {
+        for (var i = 0; i < Object.keys(results).length; i++) {
             streams = streams.concat(results[i]);
         }
 
         streams = streams.slice(0, number);
 
         callback(null, streams);
-    });
-}
-
-/**
- * Returns a list of 'game' resource based on this documentation:
- * https://github.com/justintv/Twitch-API/blob/master/v3_resources/games.md
- *
- * @param args args.number (optional): number of geStreams to retrieve
- *             args.offset (optional): offset from which you want to start to get the geStreams list
- * @param callback called when the geStreams have been retrieved, with format (err, geStreams)
- * @returns {boolean} false if arguments are missing
- */
-Client.prototype.getGames = function(callback) {
-    if (!callback || typeof callback != 'function') return false;
-
-    return retrieveResource(TWITCH_API + 'games/top', function (err, body) {
-        var games = body.top;
-        if (!games) err = new Error('Failed to parse the resource in order to get the games list!');
-        callback(err, games);
     });
 }
 
@@ -141,31 +155,13 @@ Client.prototype.getEmoticons = function (channel, callback) {
 }
 
 /**
- * Returns a 'video' resource based on this documentation:
- * https://github.com/justintv/Twitch-API/blob/master/v2_resources/videos.md#get-videosid
- *
- * @param id the video id
- * @param callback called when the video has been retrieved, using an error-first callback
- * @returns {boolean} false if arguments are missing
- */
-Client.prototype.getVideo = function(id, callback) {
-    if (!id) return false;
-    if (!callback || typeof callback != 'function') return false;
-
-    return retrieveResource(TWITCH_API + 'videos/' + id, function (err, body) {
-        if (!body) err = new Error('Failed to parse the resource in order to get the video!');
-        callback(err, body);
-    });
-}
-
-/**
  * Returns a list of 'teams' resource based on this documentation:
  * https://github.com/justintv/Twitch-API/blob/master/v2_resources/teams.md#get-teams
  *
  * @param callback called when the teams have been retrieved, using an error-first callback
  * @returns {boolean} false if arguments are missing
  */
-Client.prototype.getTeams = function(callback) {
+Client.prototype.getTeams = function (callback) {
     if (!callback || typeof callback != 'function') return false;
 
     return retrieveResource(TWITCH_API + 'teams', function (err, body) {
@@ -183,20 +179,38 @@ Client.prototype.getTeams = function(callback) {
  * @param callback called when the team has been retrieved, using an error-first callback
  * @returns {boolean} false if arguments are missing
  */
-Client.prototype.getTeam = function(id, callback) {
+Client.prototype.getTeam = function (id, callback) {
     if (!id) return false;
     if (!callback || typeof callback != 'function') return false;
 
-    return retrieveResource(TWITCH_API + "teams/" + id, function(err, body) {
+    return retrieveResource(TWITCH_API + "teams/" + id, function (err, body) {
         if (!body) err = new Error('Failed to parse the resource in order to get the team!');
         callback(err, body);
     });
 }
 
 /**
+ * Returns a 'video' resource based on this documentation:
+ * https://github.com/justintv/Twitch-API/blob/master/v2_resources/videos.md#get-videosid
+ *
+ * @param id the video id
+ * @param callback called when the video has been retrieved, using an error-first callback
+ * @returns {boolean} false if arguments are missing
+ */
+Client.prototype.getVideo = function (id, callback) {
+    if (!id) return false;
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + 'videos/' + id, function (err, body) {
+        if (!body) err = new Error('Failed to parse the resource in order to get the video!');
+        callback(err, body);
+    });
+}
+
+/**
  * Returns the body of the response of an HTTP GET request on an URL
- * 
- * @param callback called when the response has been retrieved, using an error-first callback. 
+ *
+ * @param callback called when the response has been retrieved, using an error-first callback.
  *                  the second parameter of the callback contains the body of the response
  * @returns {boolean} false if arguments are missing
  */
@@ -215,7 +229,7 @@ function retrieveResource(url, callback) {
 
             try {
                 body = JSON.parse(body);
-            } catch(err) {
+            } catch (err) {
                 ex = err;
             }
 
@@ -227,7 +241,8 @@ function retrieveResource(url, callback) {
 /**
  *
  * @param channel the channel (stream) from which we want the emoticons list
- * @returns the bufferized list of emoticons of the specified channel. The buffer is updated every script's reboot (at the moment).
+ * @returns the bufferized list of emoticons of the specified channel. The buffer is updated every script's reboot
+ *              (at the moment).
  */
 function getBufferizedEmoticons(channel) {
     var emoticons = null;
