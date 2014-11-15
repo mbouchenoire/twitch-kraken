@@ -1,7 +1,7 @@
 {
   "name": "twitch-kraken",
-  "version": "0.0.4",
-  "description": "A node module designed to easily access Twitch.tv API, Kraken.",
+  "version": "0.1.0",
+  "description": "Node.js client for Twitch.tv API.",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -t 10000 test/unit test/integration"
