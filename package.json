@@ -22,7 +22,7 @@
     "easy"
   ],
   "author": "Maxime <bouchenoire.maxime@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MaximeBouchenoire/twitch-kraken/issues"
   },
