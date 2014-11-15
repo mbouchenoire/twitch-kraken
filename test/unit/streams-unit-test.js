@@ -111,3 +111,33 @@ describe('[unit] Client#getTeam', function() {
     });
 
 });
+
+describe('[unit] Client#getChannel', function() {
+
+    var client = new twitch.Client();
+
+    it("should return false if id isn't passed", function() {
+        client.getChannel().should.be.false;
+    });
+
+    it("should return false if callback isn't passed", function() {
+        client.getChannel('riotgames', {key: 'value'}).should.be.false;
+        client.getChannel('riotgames', true).should.be.false;
+    });
+
+});
+
+describe('[unit] Client#getStream', function() {
+
+    var client = new twitch.Client();
+
+    it("should return false if id isn't passed", function() {
+        client.getStream().should.be.false;
+    });
+
+    it("should return false if callback isn't passed", function() {
+        client.getStream('riotgames', {key: 'value'}).should.be.false;
+        client.getStream('riotgames', true).should.be.false;
+    });
+
+});

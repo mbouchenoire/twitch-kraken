@@ -188,3 +188,53 @@ describe('[integration] Client#getTeam', function() {
 
 });
 
+describe('[integration] Client#getChannel', function() {
+
+    var client = new twitch.Client();
+
+    it('should callback a channel', function(done) {
+
+        client.getChannel('riotgames', function(err, channel) {
+            //(!err).should.be.true;
+            //todo test err
+
+            channel.should.have.property('display_name');
+            channel.should.have.property('game');
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function(done) {
+        client.getChannel('riotgames', function(err, channel) {
+            (!err).should.be.true;
+            done();
+        });
+    });
+});
+
+describe('[integration] Client#getStream', function() {
+
+    var client = new twitch.Client();
+
+    it('should callback a stream', function(done) {
+
+        client.getStream('riotgames', function(err, stream) {
+            //(!err).should.be.true;
+            //todo test err
+
+            stream.should.have.property('display_name');
+            stream.should.have.property('game');
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function(done) {
+        client.getStream('riotgames', function(err, stream) {
+            (!err).should.be.true;
+            done();
+        });
+    });
+});
+
