@@ -66,7 +66,7 @@ Client.prototype.getChannel = function (id, callback) {
     if (!id) return false;
     if (!callback || typeof callback != 'function') return false;
 
-    return retrieveResource(TWITCH_API + '/channels/' + id, function(err, body) {
+    return retrieveResource(TWITCH_API + '/channels/' + id, function (err, body) {
         if (!body) err = new Error('Failed to parse the resource in order to get the stream!');
         callback(err, body);
     });
@@ -82,6 +82,17 @@ Client.prototype.getChannel = function (id, callback) {
  */
 Client.prototype.getStream = function (id, callback) {
     return this.getChannel(id, callback);
+}
+
+Client.prototype.searchChannels = function (queryString, callback) {
+    if (!queryString) return false;
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + 'search/channels?q=' + queryString, function (err, body) {
+        var channels = body.channels;
+        if (!channels) err = new Error('Failed to parse the resource in order to get the channels list!');
+        callback(err, channels);
+    });
 }
 
 /**
