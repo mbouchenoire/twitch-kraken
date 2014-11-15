@@ -26,19 +26,19 @@
 var twitch = require('../../../twitch-kraken');
 var should = require('should');
 
-describe('[integration] Client#getStreams', function() {
+describe('[integration] Client#getStreams', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a list of getStreams', function(done) {
+    it('should callback a list of streams', function (done) {
         var streamsNumber = 37;
 
-        client.getStreams(streamsNumber, function(err, streams) {
+        client.getStreams(streamsNumber, function (err, streams) {
             (!err).should.be.true;
 
             streams.length.should.equal(streamsNumber);
 
-            streams.forEach(function(stream) {
+            streams.forEach(function (stream) {
 
 
                 //stream.should.have.ownProperty('_id');
@@ -52,24 +52,24 @@ describe('[integration] Client#getStreams', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getStreams(function(err, streams) {
+    it('should not callback an error', function (done) {
+        client.getStreams(function (err, streams) {
             (!err).should.be.true;
             done();
         });
     });
 });
 
-describe('[integration] Client#getGames', function() {
+describe('[integration] Client#getGames', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a list of games', function(done) {
+    it('should callback a list of games', function (done) {
 
-        client.getGames(function(err, games) {
+        client.getGames(function (err, games) {
             (!err).should.be.true;
 
-            games.forEach(function(game) {
+            games.forEach(function (game) {
                 game.should.have.ownProperty('game');
                 game.should.have.ownProperty('viewers');
             });
@@ -78,23 +78,23 @@ describe('[integration] Client#getGames', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getGames(function(err, games) {
+    it('should not callback an error', function (done) {
+        client.getGames(function (err, games) {
             (!err).should.be.true;
             done();
         });
     });
 });
 
-describe('[integration] Client#getEmoticons', function() {
+describe('[integration] Client#getEmoticons', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a list of emoticons', function(done) {
-        client.getEmoticons('riotgames', function(err, emoticons) {
+    it('should callback a list of emoticons', function (done) {
+        client.getEmoticons('riotgames', function (err, emoticons) {
             (!err).should.be.true;
 
-            emoticons.forEach(function(emoticon) {
+            emoticons.forEach(function (emoticon) {
                 emoticon.should.have.ownProperty('regex');
                 emoticon.should.have.ownProperty('url');
             });
@@ -103,8 +103,8 @@ describe('[integration] Client#getEmoticons', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getEmoticons('riotgames', function(err, emoticons) {
+    it('should not callback an error', function (done) {
+        client.getEmoticons('riotgames', function (err, emoticons) {
             (!err).should.be.true;
             done();
         });
@@ -112,13 +112,13 @@ describe('[integration] Client#getEmoticons', function() {
 
 });
 
-describe('[integration] Client#getVideo', function() {
+describe('[integration] Client#getVideo', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a video', function(done) {
+    it('should callback a video', function (done) {
 
-        client.getVideo('a328087483', function(err, video) {
+        client.getVideo('a328087483', function (err, video) {
             //(!err).should.be.true;
             //todo test err
 
@@ -129,8 +129,8 @@ describe('[integration] Client#getVideo', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getVideo('a328087483', function(err, video) {
+    it('should not callback an error', function (done) {
+        client.getVideo('a328087483', function (err, video) {
             (!err).should.be.true;
             done();
         });
@@ -138,15 +138,15 @@ describe('[integration] Client#getVideo', function() {
 });
 
 
-describe('[integration] Client#getTeams', function() {
+describe('[integration] Client#getTeams', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a list of teams', function(done) {
-        client.getTeams(function(err, teams) {
+    it('should callback a list of teams', function (done) {
+        client.getTeams(function (err, teams) {
             (!err).should.be.true;
 
-            teams.forEach(function(team) {
+            teams.forEach(function (team) {
                 team.should.have.ownProperty('name');
                 team.should.have.ownProperty('logo');
             });
@@ -155,8 +155,8 @@ describe('[integration] Client#getTeams', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getTeams(function(err, teams) {
+    it('should not callback an error', function (done) {
+        client.getTeams(function (err, teams) {
             (!err).should.be.true;
             done();
         });
@@ -164,12 +164,12 @@ describe('[integration] Client#getTeams', function() {
 
 });
 
-describe('[integration] Client#getTeam', function() {
+describe('[integration] Client#getTeam', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a team', function(done) {
-        client.getTeam('eg', function(err, team) {
+    it('should callback a team', function (done) {
+        client.getTeam('eg', function (err, team) {
             (!err).should.be.true;
 
             team.should.have.ownProperty('name');
@@ -179,8 +179,8 @@ describe('[integration] Client#getTeam', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getTeam('eg', function(err, teams) {
+    it('should not callback an error', function (done) {
+        client.getTeam('eg', function (err, teams) {
             (!err).should.be.true;
             done();
         });
@@ -188,13 +188,13 @@ describe('[integration] Client#getTeam', function() {
 
 });
 
-describe('[integration] Client#getChannel', function() {
+describe('[integration] Client#getChannel', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a channel', function(done) {
+    it('should callback a channel', function (done) {
 
-        client.getChannel('riotgames', function(err, channel) {
+        client.getChannel('riotgames', function (err, channel) {
             //(!err).should.be.true;
             //todo test err
 
@@ -205,21 +205,21 @@ describe('[integration] Client#getChannel', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getChannel('riotgames', function(err, channel) {
+    it('should not callback an error', function (done) {
+        client.getChannel('riotgames', function (err, channel) {
             (!err).should.be.true;
             done();
         });
     });
 });
 
-describe('[integration] Client#getStream', function() {
+describe('[integration] Client#getStream', function () {
 
     var client = new twitch.Client();
 
-    it('should callback a stream', function(done) {
+    it('should callback a stream', function (done) {
 
-        client.getStream('riotgames', function(err, stream) {
+        client.getStream('riotgames', function (err, stream) {
             //(!err).should.be.true;
             //todo test err
 
@@ -230,8 +230,33 @@ describe('[integration] Client#getStream', function() {
         });
     });
 
-    it('should not callback an error', function(done) {
-        client.getStream('riotgames', function(err, stream) {
+    it('should not callback an error', function (done) {
+        client.getStream('riotgames', function (err, stream) {
+            (!err).should.be.true;
+            done();
+        });
+    });
+});
+
+describe('[integration] Client#searchChannels', function () {
+
+    var client = new twitch.Client();
+
+    it('should callback a list of channels', function (done) {
+
+        client.searchChannels('lol', function (err, channels) {
+
+            channels.forEach(function (channel) {
+                channel.should.have.property('display_name');
+                channel.should.have.property('game');
+            });
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function (done) {
+        client.searchChannels('lol', function (err, channels) {
             (!err).should.be.true;
             done();
         });
