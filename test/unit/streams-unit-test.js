@@ -157,3 +157,19 @@ describe('[unit] Client#searchChannels', function() {
     });
 
 });
+
+describe('[unit] Client#searchStreams', function() {
+
+    var client = new twitch.Client();
+
+    it("should return false if query string isn't passed", function() {
+        client.searchStreams().should.be.false;
+    });
+
+    it("should return false if callback isn't passed", function() {
+        client.searchStreams('lol').should.be.false;
+        client.searchStreams('lol', {key: 'value'}).should.be.false;
+        client.searchStreams('lol', true).should.be.false;
+    });
+
+});

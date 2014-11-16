@@ -263,3 +263,28 @@ describe('[integration] Client#searchChannels', function () {
     });
 });
 
+describe('[integration] Client#searchStreams', function () {
+
+    var client = new twitch.Client();
+
+    it('should callback a list of streams', function (done) {
+
+        client.searchStreams('lol', function (err, streams) {
+
+            streams.forEach(function (stream) {
+                stream.should.have.property('game');
+                stream.should.have.property('viewers');
+            });
+
+            done();
+        });
+    });
+
+    it('should not callback an error', function (done) {
+        client.searchStreams('lol', function (err, streams) {
+            (!err).should.be.true;
+            done();
+        });
+    });
+});
+
