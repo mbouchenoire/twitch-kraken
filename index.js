@@ -95,6 +95,17 @@ Client.prototype.searchChannels = function (queryString, callback) {
     });
 }
 
+Client.prototype.searchStreams = function (queryString, callback) {
+    if (!queryString) return false;
+    if (!callback || typeof callback != 'function') return false;
+
+    return retrieveResource(TWITCH_API + 'search/streams?q=' + queryString, function (err, body) {
+        var streams = body.streams;
+        if (!streams) err = new Error('Failed to parse the resource in order to get the streams list!');
+        callback(err, streams);
+    });
+}
+
 /**
  * Returns a list of 'stream' resource based on this documentation:
  * https://github.com/justintv/Twitch-API/blob/master/v3_resources/geStreams.md
