@@ -34,12 +34,10 @@ describe('[integration] Client#getStreams', function () {
         var streamsNumber = 37;
 
         client.getStreams(streamsNumber, function (err, streams) {
-            (!err).should.be.true;
 
             streams.length.should.equal(streamsNumber);
 
             streams.forEach(function (stream) {
-
 
                 //stream.should.have.ownProperty('_id');
                 stream.should.have.ownProperty('game');
@@ -67,7 +65,6 @@ describe('[integration] Client#getGames', function () {
     it('should callback a list of games', function (done) {
 
         client.getGames(function (err, games) {
-            (!err).should.be.true;
 
             games.forEach(function (game) {
                 game.should.have.ownProperty('game');
@@ -92,7 +89,6 @@ describe('[integration] Client#getEmoticons', function () {
 
     it('should callback a list of emoticons', function (done) {
         client.getEmoticons('riotgames', function (err, emoticons) {
-            (!err).should.be.true;
 
             emoticons.forEach(function (emoticon) {
                 emoticon.should.have.ownProperty('regex');
@@ -119,8 +115,6 @@ describe('[integration] Client#getVideo', function () {
     it('should callback a video', function (done) {
 
         client.getVideo('a328087483', function (err, video) {
-            //(!err).should.be.true;
-            //todo test err
 
             video.should.have.property('title');
             video.should.have.property('description');
@@ -144,7 +138,6 @@ describe('[integration] Client#getTeams', function () {
 
     it('should callback a list of teams', function (done) {
         client.getTeams(function (err, teams) {
-            (!err).should.be.true;
 
             teams.forEach(function (team) {
                 team.should.have.ownProperty('name');
@@ -170,7 +163,6 @@ describe('[integration] Client#getTeam', function () {
 
     it('should callback a team', function (done) {
         client.getTeam('eg', function (err, team) {
-            (!err).should.be.true;
 
             team.should.have.ownProperty('name');
             team.should.have.ownProperty('logo');
@@ -195,8 +187,6 @@ describe('[integration] Client#getChannel', function () {
     it('should callback a channel', function (done) {
 
         client.getChannel('riotgames', function (err, channel) {
-            //(!err).should.be.true;
-            //todo test err
 
             channel.should.have.property('display_name');
             channel.should.have.property('game');
@@ -220,8 +210,6 @@ describe('[integration] Client#getStream', function () {
     it('should callback a stream', function (done) {
 
         client.getStream('riotgames', function (err, stream) {
-            //(!err).should.be.true;
-            //todo test err
 
             stream.should.have.property('display_name');
             stream.should.have.property('game');
