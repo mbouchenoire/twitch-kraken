@@ -84,6 +84,13 @@ Client.prototype.getStream = function (id, callback) {
     return this.getChannel(id, callback);
 }
 
+/**
+ * Search channels based on a query string.
+ * @param queryString the string to search for
+ * @param callback called when the channels corresponding to the query string have been retrieved,
+ *                  using an error-first callback
+ * @returns {boolean} false if arguments are missing
+ */
 Client.prototype.searchChannels = function (queryString, callback) {
     if (!queryString) return false;
     if (!callback || typeof callback != 'function') return false;
@@ -95,6 +102,13 @@ Client.prototype.searchChannels = function (queryString, callback) {
     });
 }
 
+/**
+ * Search streams based on a query string.
+ * @param queryString the string to search for
+ * @param callback called when the streams corresponding to the query string have been retrieved,
+ *                  using an error-first callback
+ * @returns {boolean} false if arguments are missing
+ */
 Client.prototype.searchStreams = function (queryString, callback) {
     if (!queryString) return false;
     if (!callback || typeof callback != 'function') return false;
