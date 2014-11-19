@@ -18,11 +18,24 @@ client.getStreams(function(err, streams) {
 });
 ```
 
-## Running Tests
+## Development Setup
 
-To execute all tests, use:
+Please follow the instructions below to setup your development environment.
 
-    npm test
+1) Clone this repository onto your local development machine:
+
+    $ git clone https://github.com/mbouchenoire/twitch-kraken.git
+    $ cd twitch-kraken
+
+2) Install [Node](http://nodejs.org/#download).
+
+3) Install dependencies. This will take a while.
+
+    $ npm install
+
+4) Run tests
+
+    $ npm test
 
 ## Contributing
 
