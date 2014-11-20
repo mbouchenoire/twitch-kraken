@@ -73,18 +73,6 @@ Client.prototype.getChannel = function (id, callback) {
 }
 
 /**
- * Returns a 'channel' resource based on this documentation:
- * https://github.com/justintv/Twitch-API/blob/master/v3_resources/channels.md#get-channelschannel
- *
- * @param id the channel id
- * @param callback called when the channel has been retrieved, using an error-first callback
- * @returns {boolean} false if arguments are missing
- */
-Client.prototype.getStream = function (id, callback) {
-    return this.getChannel(id, callback);
-}
-
-/**
  * Search channels based on a query string.
  * @param queryString the string to search for
  * @param callback called when the channels corresponding to the query string have been retrieved,
