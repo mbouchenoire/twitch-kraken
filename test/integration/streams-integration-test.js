@@ -203,29 +203,6 @@ describe('[integration] Client#getChannel', function () {
     });
 });
 
-describe('[integration] Client#getStream', function () {
-
-    var client = new twitch.Client();
-
-    it('should callback a stream', function (done) {
-
-        client.getStream('riotgames', function (err, stream) {
-
-            stream.should.have.property('display_name');
-            stream.should.have.property('game');
-
-            done();
-        });
-    });
-
-    it('should not callback an error', function (done) {
-        client.getStream('riotgames', function (err, stream) {
-            (!err).should.be.true;
-            done();
-        });
-    });
-});
-
 describe('[integration] Client#searchChannels', function () {
 
     var client = new twitch.Client();
